@@ -8,7 +8,6 @@ class graph_structure:
         self.graph = {}
 
     def add_edge(self, node, neighbor):
-        # """เพิ่มเส้นเชื่อมระหว่าง node และ neighbor"""
         if node not in self.graph:
             self.graph[node] = []
         if neighbor not in self.graph:
@@ -17,12 +16,10 @@ class graph_structure:
         self.graph[neighbor].append(node)
 
     def show_graph(self):
-        # """แสดงกราฟแบบข้อความ"""
         for node, neighbors in self.graph.items():
             print(f"{node} --> {neighbors}")
 
     def plot_graph(self, highlight_nodes=None, title="Graph Structure"):
-        # """แสดงกราฟเป็นภาพ พร้อมระบายสี"""
         G = nx.Graph(self.graph)
         pos = nx.spring_layout(G, seed=42)
         plt.figure(figsize=(6, 4))
@@ -50,7 +47,6 @@ class graph_structure:
     def bfs(self, start):
         """Breadth-First Search"""
         visited = set()
-        # [cite_start]ใช้ deque จาก collections ที่ import ไว้ [cite: 6]
         queue = deque([start])
         traversal_order = []
 
@@ -64,7 +60,6 @@ class graph_structure:
             current_node = queue.popleft()
             traversal_order.append(current_node)
 
-            # [cite_start]เข้าถึง self.graph ที่กำหนดใน __init__ [cite: 9]
             if current_node in self.graph:
                 for neighbor in self.graph[current_node]:
                     if neighbor not in visited:
@@ -72,7 +67,7 @@ class graph_structure:
                         queue.append(neighbor)
 
         print(f"BFS Traversal starting from {start}: {traversal_order}")
-        # [cite_start]เรียกใช้ plot_graph ที่มีในคลาส [cite: 20]
+        
         self.plot_graph(highlight_nodes=traversal_order, title=f"BFS from {start}")
 
     def dfs(self, start):
@@ -84,12 +79,10 @@ class graph_structure:
             print(f"Node {start} not in graph.")
             return
 
-        # ใช้ฟังก์ชัน helper แบบ Recursive
         def dfs_recursive(node):
             visited.add(node)
             traversal_order.append(node)
 
-            # [cite_start]เข้าถึง self.graph ที่กำหนดใน __init__ [cite: 9]
             if node in self.graph:
                 for neighbor in self.graph[node]:
                     if neighbor not in visited:
@@ -98,7 +91,7 @@ class graph_structure:
         dfs_recursive(start)
 
         print(f"DFS Traversal starting from {start}: {traversal_order}")
-        # [cite_start]เรียกใช้ plot_graph ที่มีในคลาส [cite: 20]
+        
         self.plot_graph(highlight_nodes=traversal_order, title=f"DFS from {start}")
 
 
@@ -114,4 +107,5 @@ if __name__ == "__main__":
     g.show_graph()
 
     g.bfs('A')
+
     g.dfs('A')
